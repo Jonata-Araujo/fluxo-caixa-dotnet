@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>CashFlow.Consolidation.Application</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CashFlow.Consolidation.Domain\CashFlow.Consolidation.Domain.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\CashFlow.Contracts\CashFlow.Contracts.csproj" />
+  </ItemGroup>
+</Project>

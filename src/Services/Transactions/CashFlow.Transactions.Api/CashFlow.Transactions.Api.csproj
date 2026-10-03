@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <RootNamespace>CashFlow.Transactions.Api</RootNamespace>
+    <InvariantGlobalization>false</InvariantGlobalization>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CashFlow.Transactions.Infrastructure\CashFlow.Transactions.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\CashFlow.Web.Common\CashFlow.Web.Common.csproj" />
+  </ItemGroup>
+</Project>

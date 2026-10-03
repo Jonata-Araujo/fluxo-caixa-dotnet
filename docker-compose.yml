@@ -1,0 +1,66 @@
+name: cashflow
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: cashflow
+      POSTGRES_PASSWORD: cashflow
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cashflow"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"   # painel: http://localhost:15672 (guest/guest)
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  transactions-api:
+    build:
+      context: .
+      dockerfile: src/Services/Transactions/CashFlow.Transactions.Api/Dockerfile
+    environment:
+      ConnectionStrings__TransactionsDb: "Host=postgres;Port=5432;Database=cashflow_transactions;Username=cashflow;Password=cashflow"
+      RabbitMq__HostName: rabbitmq
+    ports:
+      - "5001:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      # Sem dependência "healthy" do RabbitMQ de propósito: o serviço de lançamentos
+      # sobe e opera mesmo sem broker (os eventos ficam no outbox).
+      rabbitmq:
+        condition: service_started
+    restart: unless-stopped
+
+  consolidation-api:
+    build:
+      context: .
+      dockerfile: src/Services/Consolidation/CashFlow.Consolidation.Api/Dockerfile
+    environment:
+      ConnectionStrings__ConsolidationDb: "Host=postgres;Port=5432;Database=cashflow_consolidation;Username=cashflow;Password=cashflow;Maximum Pool Size=50"
+      RabbitMq__HostName: rabbitmq
+    ports:
+      - "5002:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres-data:

@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>CashFlow.Transactions.Domain</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\CashFlow.SharedKernel\CashFlow.SharedKernel.csproj" />
+  </ItemGroup>
+</Project>

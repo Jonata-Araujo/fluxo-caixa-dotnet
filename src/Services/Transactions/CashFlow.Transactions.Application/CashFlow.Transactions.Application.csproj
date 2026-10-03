@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>CashFlow.Transactions.Application</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CashFlow.Transactions.Domain\CashFlow.Transactions.Domain.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\CashFlow.Contracts\CashFlow.Contracts.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="CashFlow.Transactions.UnitTests" />
+  </ItemGroup>
+</Project>

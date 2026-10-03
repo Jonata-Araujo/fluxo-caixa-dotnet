@@ -1,0 +1,36 @@
+### Requisições de exemplo (VS Code REST Client / Visual Studio / Rider)
+@transactions = http://localhost:5001
+@consolidation = http://localhost:5002
+
+### Registrar crédito
+POST {{transactions}}/api/v1/transactions
+Content-Type: application/json
+
+{ "type": "credit", "amount": 1500.00, "description": "Vendas do balcão" }
+
+### Registrar débito
+POST {{transactions}}/api/v1/transactions
+Content-Type: application/json
+
+{ "type": "debit", "amount": 320.45, "description": "Pagamento fornecedor" }
+
+### Lançamento retroativo
+POST {{transactions}}/api/v1/transactions
+Content-Type: application/json
+
+{ "type": "credit", "amount": 99.90, "description": "Venda esquecida", "date": "2026-09-28" }
+
+### Validação (400 com código de erro)
+POST {{transactions}}/api/v1/transactions
+Content-Type: application/json
+
+{ "type": "credit", "amount": 0, "description": "" }
+
+### Listar lançamentos do dia
+GET {{transactions}}/api/v1/transactions?date=2026-09-29&page=1&pageSize=50
+
+### Saldo consolidado do dia
+GET {{consolidation}}/api/v1/daily-balances/2026-09-29
+
+### Relatório do período (saldo diário + acumulado)
+GET {{consolidation}}/api/v1/daily-balances?from=2026-09-01&to=2026-09-30
